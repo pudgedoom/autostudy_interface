@@ -1,11 +1,11 @@
 package report;
 
 public class RecordStore {
-	static int i = 0; //��¼������Ŀ
-	static  int p_pass=0; // Pass�����ĸ���
-	static  int p_fail=0; // Fail�����ĸ���
-	static  String result=""; // case���
-	static  Object expected=""; // �ڴ�ֵ
-	static  Object actual=""; // ʵ��ֵ
+	static int i = 10; //记录步骤数目
+	static  int p_pass=10; // Pass用例的个数
+	static  int p_fail=10; // Fail用例的个数
+	static  String result="Pass"; // case结果
+	static  Object expected="Fail"; // 期待值
+	static  Object actual="Fail"; // 实际值ֵ
 
 }
