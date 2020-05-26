@@ -22,8 +22,8 @@ import org.apache.poi.ss.usermodel.DateUtil;
 public class ExcelUtil {
 	
 	/**
-	 * 1¡¢¶ÁÈ¡excleÍ·
-	 * 2¡¢¶ÁÈ¡excelÄÚÈÝ
+	 * 1ï¿½ï¿½ï¿½ï¿½È¡excleÍ·
+	 * 2ï¿½ï¿½ï¿½ï¿½È¡excelï¿½ï¿½ï¿½ï¿½
 	 * 
 	 */
 	
@@ -32,15 +32,15 @@ public class ExcelUtil {
 			int headerNumber,
 			int rowStart) 
 					throws IOException,InvalidFormatException{
-		//Òª·µ»ØµÄÊý¾Ý
+		//Òªï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
 		List<String> headers=new ArrayList<String>();
-		//Éú³É¹¤×÷±í
+		//ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		Workbook workbook=WorkbookFactory.create(excelInputStream);
 		Sheet sheet=workbook.getSheetAt(sheetNumber);
 		Row header = sheet.getRow(headerNumber);
 		DataFormatter dataformatter=new DataFormatter();
 		for(int i=0;i<header.getLastCellNum();i++){
-			//»ñÈ¡µ¥Ôª¸ñ
+			//ï¿½ï¿½È¡ï¿½ï¿½Ôªï¿½ï¿½
 			Cell cell=header.getCell(i);
 			headers.add(dataformatter.formatCellValue(cell));
 		}
@@ -48,40 +48,40 @@ public class ExcelUtil {
 		return headers;
 }
 	
-	public static List<Map<String,Object>> readExcelData(InputStream excelInputstream,
+	public static List<Map<String,Object>> readExcelDataSheetNum(InputStream excelInputstream,
 			int sheetNumber,
 			int headerNumber,
 			int rowStart)throws IOException,InvalidFormatException{
 			
-		//ÐèÒªµÄ±äÁ¿ÒÔ¼°Òª·µ»ØµÄÊý¾Ý
+		//ï¿½ï¿½Òªï¿½Ä±ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½Òªï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         List<String> headers = new ArrayList<String>();
-        //Éú³É¹¤×÷±í
+        //ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½
         Workbook workbook = WorkbookFactory.create(excelInputstream);
         Sheet sheet = workbook.getSheetAt(sheetNumber);
         Row header = sheet.getRow(headerNumber);
-        //×îºóÒ»ÐÐÊý¾Ý
+        //ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         int rowEnd = sheet.getLastRowNum();
         DataFormatter dataFormatter = new DataFormatter();
-        //»ñÈ¡±êÌâÐÅÏ¢
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
         for (int i = 0; i <header.getLastCellNum(); ++i) {
             Cell cell = header.getCell(i);
             headers.add(dataFormatter.formatCellValue(cell));
         }
-        //»ñÈ¡ÄÚÈÝÐÅÏ¢
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
         for (int i = rowStart; i <=rowEnd; ++i) {
             Row currentRow = sheet.getRow(i);
             if (Objects.isNull(currentRow)) {
                 continue;
             }
-            Map<String, Object> dataMap = new HashMap<>();
+            Map<String, Object> dataMap = new HashMap<String, Object>();
             for (int j = 0; j < currentRow.getLastCellNum(); ++j) {
-                //½«null×ª»¯ÎªBlank
+                //ï¿½ï¿½null×ªï¿½ï¿½ÎªBlank
                 Cell data = currentRow.getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                if (Objects.isNull(data)) {     //¸Ð¾õÕâ¸öifÓÐµã¶àÓà
+                if (Objects.isNull(data)) {     //ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ifï¿½Ðµï¿½ï¿½ï¿½ï¿½
                     dataMap.put(headers.get(j), null);
                 } else {
-                    switch (data.getCellType()) {   //²»Í¬µÄÀàÐÍ·Ö±ð½øÐÐ´æ´¢
+                    switch (data.getCellType()) {   //ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Í·Ö±ï¿½ï¿½ï¿½Ð´æ´¢
                         case STRING:
                             dataMap.put(headers.get(j), data.getRichStringCellValue().getString());
                             break;
@@ -109,15 +109,73 @@ public class ExcelUtil {
 		
 	}
 	
+	public static List<Map<String,Object>> readExcelDataSheetName(InputStream excelInputstream,
+			String  name
+			)throws IOException,InvalidFormatException{
+		//ï¿½ï¿½Òªï¿½Ä±ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½Òªï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        List<String> headers = new ArrayList<String>();
+        //ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½
+        Workbook workbook = WorkbookFactory.create(excelInputstream);
+        Sheet sheet = workbook.getSheet(name);
+        Row header = sheet.getRow(0);
+        //ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        int rowEnd = sheet.getLastRowNum();
+        DataFormatter dataFormatter = new DataFormatter();
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+        for (int i = 0; i <header.getLastCellNum(); ++i) {
+            Cell cell = header.getCell(i);
+            headers.add(dataFormatter.formatCellValue(cell));
+        }
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+        for (int i = 1; i <=rowEnd; ++i) {
+            Row currentRow = sheet.getRow(i);
+            if (Objects.isNull(currentRow)) {
+                continue;
+            }
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            for (int j = 0; j < currentRow.getLastCellNum(); ++j) {
+                //ï¿½ï¿½null×ªï¿½ï¿½ÎªBlank
+                Cell data = currentRow.getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                if (Objects.isNull(data)) {     //ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ifï¿½Ðµï¿½ï¿½ï¿½ï¿½
+                    dataMap.put(headers.get(j), null);
+                } else {
+                    switch (data.getCellType()) {   //ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Í·Ö±ï¿½ï¿½ï¿½Ð´æ´¢
+                        case STRING:
+                            dataMap.put(headers.get(j), data.getRichStringCellValue().getString());
+                            break;
+                        case NUMERIC:
+                            if (DateUtil.isCellDateFormatted(data)) {
+                                dataMap.put(headers.get(j), data.getDateCellValue());
+                            } else {
+                                dataMap.put(headers.get(j), data.getNumericCellValue());
+                            }
+                            break;
+                        case FORMULA:
+                            dataMap.put(headers.get(j), data.getCellFormula());
+                            break;
+                        case BOOLEAN:
+                            dataMap.put(headers.get(j), data.getBooleanCellValue());
+                            break;
+                        default:
+                            dataMap.put(headers.get(j), null);
+                    }
+                }
+                
+            }result.add(dataMap);
+        }
+        return result;
+		
+	}
 	public static void main(String[] args) throws InvalidFormatException, IOException{
-		InputStream input=new FileInputStream("F:\\test.xlsx");
-		List<String> list=readExcelHeader(input,0,0,1);
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-		InputStream input2=new FileInputStream("F:\\test.xlsx");
-		List<Map<String, Object>> arr=readExcelData(input2,0,0,1);
-		for (int i = 0; i < list.size()-1; i++) {
+		InputStream input=new FileInputStream("E:\\è‡ªåŠ¨åŒ–å­¦ä¹ \\httpè¯·æ±‚æ¨¡æ¿.xlsx");
+//		List<String> list=readExcelHeader(input,0,0,1);
+//		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
+//		InputStream input2=new FileInputStream("F:\\test.xlsx");
+		List<Map<String, Object>> arr=readExcelDataSheetName(input,"mcæµ‹è¯•");
+		for (int i = 0; i < arr.size(); i++) {
 			System.out.println(arr.get(i));
 		}
 	}
